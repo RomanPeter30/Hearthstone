@@ -28,6 +28,7 @@ public class KeyListener implements  NativeKeyListener{
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent e) {
+        System.out.println(e.getKeyCode());
         Logic logic = new Logic();
         logic.printChar(e.getKeyCode());
     }
