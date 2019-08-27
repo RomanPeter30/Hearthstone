@@ -8,7 +8,10 @@ import org.jnativehook.keyboard.NativeKeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class KeyListener implements  NativeKeyListener{
+public class KeyListener implements  NativeKeyListener {
+
+    Logic logic = new Logic();
+
     public static void main(String[] args) {
         Logger logger = Logger.getLogger((GlobalScreen.class.getPackage().getName()));
         logger.setLevel(Level.OFF);
@@ -29,8 +32,7 @@ public class KeyListener implements  NativeKeyListener{
     @Override
     public void nativeKeyPressed(NativeKeyEvent e) {
         System.out.println(e.getKeyCode());
-        Logic logic = new Logic();
-        logic.printChar(e.getKeyCode());
+        logic.performAction(e.getKeyCode());
     }
 
     @Override

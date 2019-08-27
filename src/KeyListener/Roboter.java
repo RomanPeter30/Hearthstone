@@ -2,7 +2,6 @@ package KeyListener;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
 
 public class Roboter {
 
@@ -15,13 +14,100 @@ public class Roboter {
         }
     }
 
-    public void endTurn() {
+    public void startGame() {
         robot.mouseMove(1,1);
-        robot.mousePress(InputEvent.BUTTON1_MASK);
+        pressMouseLeft();
+    }
+
+    public void choosePlace(int i) {
+        switch (i) {
+            case 2:
+                robot.mouseMove(490, 590);
+                pressMouseLeft();
+                break;
+            case 3:
+                robot.mouseMove(720, 590);
+                pressMouseLeft();
+                break;
+            case 4:
+                robot.mouseMove(850, 590);
+                pressMouseLeft();
+                break;
+            case 5:
+                robot.mouseMove(1000, 590);
+                pressMouseLeft();
+                break;
+            case 6:
+                robot.mouseMove(1125, 590);
+                pressMouseLeft();
+                break;
+            case 7:
+                robot.mouseMove(1200, 590);
+                pressMouseLeft();
+                break;
+            case 8:
+                robot.mouseMove(1330, 590);
+                pressMouseLeft();
+                break;
+        }
+    }
+
+    public void chooseTarget(int i) {
+        switch (i) {
+            case 2:
+                robot.mouseMove(490, 420);
+                pressMouseLeft();
+                break;
+            case 3:
+                robot.mouseMove(720, 420);
+                pressMouseLeft();
+                break;
+            case 4:
+                robot.mouseMove(850, 420);
+                pressMouseLeft();
+                break;
+            case 5:
+                robot.mouseMove(1000, 420);
+                pressMouseLeft();
+                break;
+            case 6:
+                robot.mouseMove(1125, 420);
+                pressMouseLeft();
+                break;
+            case 7:
+                robot.mouseMove(1200, 420);
+                pressMouseLeft();
+                break;
+            case 8:
+                robot.mouseMove(1330, 420);
+                pressMouseLeft();
+                break;
+        }
+    }
+
+    public void heroPower () {
+        robot.mouseMove(1140, 830);
+        pressMouseLeft();
+    }
+
+    public void goFace() {
+        robot.mouseMove(940, 210);
+        pressMouseLeft();
+    }
+
+    public void endTurn() {
+        robot.mouseMove(1540,490);
+        pressMouseLeft();
+
     }
 
     public void selectCard() {
-        robot.mousePress(InputEvent.BUTTON1_MASK);
+        pressMouseLeft();
+    }
+
+    public void releaseCard() {
+        robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
+        robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
     }
 
     public void moveMouseRigth() {
@@ -46,5 +132,10 @@ public class Roboter {
         int x = MouseInfo.getPointerInfo().getLocation().x;
         int y = MouseInfo.getPointerInfo().getLocation().y;
         robot.mouseMove(x, y - 10);
+    }
+
+    private void pressMouseLeft() {
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
 }
