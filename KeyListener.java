@@ -3,6 +3,7 @@ import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
+import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +30,11 @@ public class KeyListener implements NativeKeyListener {
 
     public void nativeKeyPressed(NativeKeyEvent e) {
         System.out.println(e.getKeyCode());
-        logic.doAction(e.getKeyCode());
+        try {
+            logic.doAction(e.getKeyCode());
+        } catch (AWTException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void nativeKeyReleased(NativeKeyEvent e) {

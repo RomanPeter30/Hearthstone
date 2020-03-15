@@ -3,6 +3,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.awt.*;
+
 public class Logic {
     //StringProperty for HandCards
     private StringProperty handString = new SimpleStringProperty();
@@ -83,7 +85,9 @@ public class Logic {
         friendlyMinionsString.bind(friendlyMinions.asString());
     }
 
-    public void doAction(int code) {
+    public void doAction(int code) throws AWTException {
+        Roboter r = new Roboter();
+        r.start();
         if(code == 3658) { //NumPad Plus
             setHandcards(getHandcards() - 1);
         } else if(code == 3662) { //NumPad Minus
@@ -96,6 +100,8 @@ public class Logic {
             setEnemyMinions(getEnemyMinions() - 1);
         } else if(code == 57421) { //NumPad 6
             setEnemyMinions(getEnemyMinions() + 1);
+        } else if(code == 31) {
+            r.startGame();
         }
     }
 }
