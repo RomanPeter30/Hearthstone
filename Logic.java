@@ -78,6 +78,9 @@ public class Logic {
         this.friendlyMinions.set(friendlyMinions);
     }
 
+    public boolean confirmed = false;
+    public boolean attack = false;
+
     //Starten
     public void start() {
         handString.bind(handcards.asString());
@@ -102,6 +105,21 @@ public class Logic {
             setEnemyMinions(getEnemyMinions() + 1);
         } else if(code == 31) {
             r.startGame();
+        } else if(code == 46) { //Confirm
+            r.confirm();
+            confirmed = true;
+        } else if(code == 30) { //Attack
+            attack = true;
+        } else if(code == 18) {
+            r.endTurn();
+        } else if(code == 5) {
+            if(!confirmed) {
+                setHandcards(6);
+            }
+        } else if(code == 4) {
+            if(!confirmed) {
+                setHandcards(4);
+            }
         }
     }
 }

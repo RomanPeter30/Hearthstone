@@ -16,4 +16,16 @@ public class Roboter {
         r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
+
+    public void confirm() {
+        r.mouseMove(970, 860);
+        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
+
+    public void endTurn() {
+        r.mouseMove(1560, 500);
+        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
 }
