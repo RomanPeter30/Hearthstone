@@ -7,9 +7,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class KeyListener implements NativeKeyListener {
-    Logic logic = new Logic();
+    Logic logic;
 
-    public void start() {
+    KeyListener(Logic logic) {
+        this.logic = logic;
+    }
+
+    public void start(Logic logic) {
         Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
         logger.setLevel(Level.OFF);
         try {
@@ -20,7 +24,7 @@ public class KeyListener implements NativeKeyListener {
             System.err.println(ex.getMessage());
             System.exit(1);
         }
-        GlobalScreen.addNativeKeyListener(new KeyListener());
+        GlobalScreen.addNativeKeyListener(new KeyListener(logic));
     }
 
     public void nativeKeyPressed(NativeKeyEvent e) {
