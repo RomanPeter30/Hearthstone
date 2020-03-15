@@ -50,9 +50,8 @@ public class Overlay extends JFrame {
             int xHands = 0;
             int yHands = 1000;
             int addHands = 0;
+            int x, y;
 
-            int x = 540;
-            int y = 400;
             switch(logic.getHandcards()) {
                 case 1:
                     xHands = 920;
@@ -91,17 +90,39 @@ public class Overlay extends JFrame {
                     addHands = 50;
                     break;
             }
-            for(int i = 1; i <= logic.getHandcards(); i = i + 1) {
+            for(int i = 1; i <= logic.getHandcards(); i++) {
                 g.drawString("" + i, xHands, yHands);
                 xHands = xHands + addHands;
             }
-            for(int i = 0; i <= 1; i = i + 1) {
-                for(int j = 1; j <= 7; j = j + 1) {
-                    g.drawString("" + j, x, y);
-                    x = x + 140;
-                }
+            if(logic.getFriendlyMinions()%2 != 0) {
                 x = 540;
                 y = 600;
+                for (int i = 1; i <= 7; i++) {
+                    g.drawString("" + i, x, y);
+                    x = x + 140;
+                }
+            } else {
+                x = 610;
+                y = 600;
+                for(int i = 1; i <= 6; i++) {
+                    g.drawString("" + i, x, y);
+                    x = x + 140;
+                }
+            }
+            if(logic.getEnemyMinions()%2 != 0) {
+                x = 540;
+                y = 400;
+                for (int i = 1; i <= 7; i++) {
+                    g.drawString("" + i, x, y);
+                    x = x + 140;
+                }
+            } else {
+                x = 610;
+                y = 400;
+                for(int i = 1; i <= 6; i++) {
+                    g.drawString("" + i, x, y);
+                    x = x + 140;
+                }
             }
             g.drawString("Handcards:"+ logic.getHandString(), 1300, 1070);
             g.drawString("Friendly Minions: " + logic.getFriendlyMinionsString(), 440, 540);
