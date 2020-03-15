@@ -1,27 +1,59 @@
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
 
 public class Logic {
 
+    KeyListener keyListener;
+
+    //StringProperty for HandCards
+    private StringProperty handString = new SimpleStringProperty();
+
+    public StringProperty handString() {
+        return handString;
+    }
+
+    public String getHandString() {
+        return handString.get();
+    }
+
+    public void setHandString(String handString) {
+        this.handString.set(handString);
+    }
+
     //IntegerPoperty for Handcards
     private IntegerProperty handcards = new SimpleIntegerProperty();
-    public IntegerProperty handcards() {return handcards;}
-    public int getHandcards() {return handcards.get();}
-    public void setHandcards(int handcards) {this.handcards.set(handcards);}
 
+    public IntegerProperty handcards() {
+        return handcards;
+    }
+
+    public int getHandcards() {
+        return handcards.get();
+    }
+
+    public void setHandcards(int handcards) {
+        this.handcards.set(handcards);
+    }
+
+    //Starten
     public void start() {
-        try {
-            GlobalScreen.registerNativeHook();
-        }
-        catch (NativeHookException ex) {
-            System.err.println("There was a problem registering the native hook.");
-            System.err.println(ex.getMessage());
+        handString.bind(handcards.asString());
+        this.keyListener = new KeyListener();
+        keyListener.start();
+    }
 
-            System.exit(1);
+    public void doAction(int code) {
+        if(code == 18) {
+            System.out.println("E");
         }
+    }
 
-        GlobalScreen.addNativeKeyListener(new KeyListener());
+    public void write() {
+        System.out.println("Hello");
     }
 }
