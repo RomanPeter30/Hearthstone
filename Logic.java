@@ -1,8 +1,17 @@
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 
 public class Logic {
-    public static void main(String[] args) {
+
+    //IntegerPoperty for Handcards
+    private IntegerProperty handcards = new SimpleIntegerProperty();
+    public IntegerProperty handcards() {return handcards;}
+    public int getHandcards() {return handcards.get();}
+    public void setHandcards(int handcards) {this.handcards.set(handcards);}
+
+    public void start() {
         try {
             GlobalScreen.registerNativeHook();
         }
