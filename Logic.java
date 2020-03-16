@@ -6,6 +6,13 @@ import javafx.beans.property.StringProperty;
 import java.awt.*;
 
 public class Logic {
+
+    Overlay overlay;
+
+    Logic(Overlay overlay) {
+        this.overlay = overlay;
+    }
+
     //StringProperty for HandCards
     private StringProperty handString = new SimpleStringProperty();
     public StringProperty handString() {
@@ -80,6 +87,11 @@ public class Logic {
 
     public boolean confirmed = false;
     public boolean attack = false;
+    public boolean selected = false;
+    public int selection;
+    public int posToAttack;
+    public int timesSel;
+    public int timesPos;
 
     //Starten
     public void start() {
@@ -89,8 +101,28 @@ public class Logic {
     }
 
     public void doAction(int code) throws AWTException {
+        timesSel = 0;
+        timesPos = 0;
+
+        //Minions
+        if(getEnemyMinions()%2 == 0) {
+            posToAttack = 610;
+        } else {
+            posToAttack = 540;
+        }
+
+        //Handcards
+        if(getHandcards() == 4) {
+            selection = 620;
+        } else if(getHandcards() == 6) {
+            selection = 400;
+        }
+
+        //Create Robot
         Roboter r = new Roboter();
         r.start();
+
+        //Logic
         if(code == 3658) { //NumPad Plus
             setHandcards(getHandcards() - 1);
         } else if(code == 3662) { //NumPad Minus
@@ -112,14 +144,82 @@ public class Logic {
             attack = true;
         } else if(code == 18) {
             r.endTurn();
-        } else if(code == 5) {
-            if(!confirmed) {
-                setHandcards(6);
+        } else if(code == 2) {
+            if(attack) { //Attack
+                r.attack(posToAttack, timesPos);
+            } else {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
+            }
+            if(!confirmed) { //Select Card to put away
+                timesSel = 0;
+                r.select(selection, timesSel);
+            }
+        } else if(code == 3) {
+            if(attack) { //Attack
+                timesPos = 1;
+                r.attack(posToAttack, timesPos);
+            } else {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
+            }
+            if(!confirmed) { //Select Card to put away
+                timesSel = 1;
+                r.select(selection, timesSel);
             }
         } else if(code == 4) {
-            if(!confirmed) {
+            if (!confirmed && !selected) { //Select Handsize at start
                 setHandcards(4);
+                selected = true;
+            } else if (attack) { //Attack
+                timesPos = 2;
+                r.attack(posToAttack, timesPos);
+            } else {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
             }
+            if(!confirmed) { //Select Card to put away
+                timesSel = 2;
+                r.select(selection, timesSel);
+            }
+        } else if(code == 5) {
+            if(!confirmed && !selected) { //Select Handsize at start
+                setHandcards(6);
+                selected = true;
+            } else if(attack) { //Attack
+                timesPos = 3;
+                r.attack(posToAttack, timesPos);
+            } else {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
+            }
+            if(!confirmed && getHandcards() == 61) { //Select Card to put away
+                timesSel = 3;
+                r.select(selection, timesSel);
+            }
+        } else if(code == 6) {
+            if(attack) {
+                timesPos = 4;
+                r.attack(posToAttack, timesPos);
+            } else {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
+            }
+        } else if(code == 7) {
+            if(attack) {
+                timesPos = 5;
+                r.attack(posToAttack, timesPos);
+            } else {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
+            }
+        } else if(code == 8) {
+            if(attack) {
+                timesPos = 6;
+                r.attack(posToAttack, timesPos);
+            } else {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
+            }
+        } else if(code == 9) {
+            r.playCard(overlay.xHands, overlay.addHands, code - 1);
+        } else if(code == 10) {
+            r.playCard(overlay.xHands, overlay.addHands, code - 1);
+        } else if(code == 11) {
+            r.playCard(overlay.xHands, overlay.addHands, code - 1);
         }
     }
 }

@@ -28,4 +28,22 @@ public class Roboter {
         r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
+
+    public void attack(int x, int times) {
+        r.mouseMove(x + (times * 140), 400);
+        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
+
+    public void select(int x, int times) {
+        r.mouseMove(x + (times * 350), 500);
+        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
+
+    public void playCard(int xHands, int addHands, int code) {
+        r.mouseMove(xHands + (code * addHands), 1000);
+        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
 }

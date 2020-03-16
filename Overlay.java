@@ -5,8 +5,12 @@ import javax.swing.WindowConstants;
 public class Overlay extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    Logic logic = new Logic();
+    Logic logic = new Logic(this);
     KeyListener keyListener = new KeyListener(logic);
+    int xHands;
+    int yHands;
+    int addHands;
+    int x, y;
 
     public Overlay() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -30,9 +34,13 @@ public class Overlay extends JFrame {
         g.setColor(Color.WHITE);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 
-        if(!logic.confirmed) {
+        if(!logic.selected) {
+            g.drawString("Choose number of Cards 3 or 4", 400,300);
+        } else if(!logic.confirmed) {
             int xChoose = 400;
             int yChoose = 300;
+
+            //SelectCard Numeration
             if(logic.getHandcards() == 6) {
                 for(int i = 1; i <= logic.getHandcards() - 2; i++) {
                     g.drawString("" + i, xChoose, yChoose);
@@ -47,11 +55,11 @@ public class Overlay extends JFrame {
             }
             g.drawString("C", 850, 860);
         } else {
-            int xHands = 0;
-            int yHands = 1000;
-            int addHands = 0;
-            int x, y;
+            xHands = 0;
+            yHands = 1000;
+            addHands = 0;
 
+            //HandCards Numeration
             switch(logic.getHandcards()) {
                 case 1:
                     xHands = 920;
@@ -90,21 +98,25 @@ public class Overlay extends JFrame {
                     addHands = 50;
                     break;
             }
-            for(int i = 1; i <= logic.getHandcards(); i++) {
+            int i;
+            for(i = 1; i <= logic.getHandcards(); i++) {
                 g.drawString("" + i, xHands, yHands);
                 xHands = xHands + addHands;
             }
+            xHands = xHands - (i * addHands);
+
+            //Minion Numeration
             if(logic.getFriendlyMinions()%2 != 0) {
                 x = 540;
                 y = 600;
-                for (int i = 1; i <= 7; i++) {
+                for (i = 1; i <= 7; i++) {
                     g.drawString("" + i, x, y);
                     x = x + 140;
                 }
             } else {
                 x = 610;
                 y = 600;
-                for(int i = 1; i <= 6; i++) {
+                for(i = 1; i <= 6; i++) {
                     g.drawString("" + i, x, y);
                     x = x + 140;
                 }
@@ -112,14 +124,14 @@ public class Overlay extends JFrame {
             if(logic.getEnemyMinions()%2 != 0) {
                 x = 540;
                 y = 400;
-                for (int i = 1; i <= 7; i++) {
+                for (i = 1; i <= 7; i++) {
                     g.drawString("" + i, x, y);
                     x = x + 140;
                 }
             } else {
                 x = 610;
                 y = 400;
-                for(int i = 1; i <= 6; i++) {
+                for(i = 1; i <= 6; i++) {
                     g.drawString("" + i, x, y);
                     x = x + 140;
                 }
