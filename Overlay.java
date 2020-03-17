@@ -147,8 +147,10 @@ public class Overlay extends JFrame {
             g.drawString("Friendly Minions: " + logic.getFriendlyMinionsString(), 440, 540);
             g.drawString("Enemy Minions: " + logic.getEnemyMinionsString(), 440, 480);
             g.drawString("E", 1660, 500);
-            if(!logic.attack) {
+            if(!logic.attack && !logic.playCard) {
                 g.drawString("A", 400, 600);
+            } else if (logic.playCard) {
+                g.drawString("P", 400, 600);
             } else {
                 g.drawString("T" , 400, 400);
             }

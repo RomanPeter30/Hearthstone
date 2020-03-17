@@ -52,4 +52,10 @@ public class Roboter {
         r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
+
+    public void chooseAttackCard(int x, int code) {
+        r.mouseMove(x + (code * 140), 600);
+        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
 }

@@ -89,6 +89,8 @@ public class Logic {
     public boolean attack = false;
     public boolean selected = false;
     public boolean cardToPlay = false;
+    public boolean cardToAttack = false;
+    public boolean playCard = true;
     public int selection;
     public int posToAttack;
     public int timesSel;
@@ -102,23 +104,20 @@ public class Logic {
     }
 
     public void doAction(int code) throws AWTException {
-        System.out.println(selected);
-        System.out.println(confirmed);
-        System.out.println(cardToPlay);
         timesSel = 0;
         timesPos = 0;
 
         //Minions
-        if(getEnemyMinions()%2 == 0) {
+        if (getEnemyMinions() % 2 == 0) {
             posToAttack = 610;
         } else {
             posToAttack = 540;
         }
 
         //Handcards
-        if(getHandcards() == 4) {
+        if (getHandcards() == 4) {
             selection = 620;
-        } else if(getHandcards() == 6) {
+        } else if (getHandcards() == 6) {
             selection = 400;
         }
 
@@ -126,141 +125,65 @@ public class Logic {
         Roboter r = new Roboter();
         r.start();
 
+        //Generelle Logik
+        if (code == 2 || code == 3 || code == 4 || code == 5 || code == 6 || code == 7 || code == 8 || code == 9 || code == 10 || code == 11) {
+            if (cardToAttack) { //Attack
+                r.attack(posToAttack, code - 2);
+                cardToAttack = false;
+            } else if (!cardToPlay && confirmed && playCard) {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
+                cardToPlay = true;
+            } else if (!confirmed) { //Select Card to put away
+                r.select(selection, code - 2);
+            } else if (!playCard) {
+                r.chooseAttackCard(overlay.x, code - 1);
+                cardToAttack = true;
+            } else {
+                r.posToPlay(overlay.x, code - 1);
+                cardToPlay = false;
+            }
+        }
+
         //Logic
-        if(code == 3658) { //NumPad Plus
+        if (code == 3658) { //NumPad Plus
             setHandcards(getHandcards() - 1);
-        } else if(code == 3662) { //NumPad Minus
+        } else if (code == 3662) { //NumPad Minus
             setHandcards(getHandcards() + 1);
-        } else if(code == 57416) { //NumPad 8
+        } else if (code == 57416) { //NumPad 8
             setFriendlyMinions(getFriendlyMinions() + 1);
-        } else if(code == 57424) { //NumPad 2
+        } else if (code == 57424) { //NumPad 2
             setFriendlyMinions(getFriendlyMinions() - 1);
-        } else if(code == 57419) { //NumPad 4
+        } else if (code == 57419) { //NumPad 4
             setEnemyMinions(getEnemyMinions() - 1);
-        } else if(code == 57421) { //NumPad 6
+        } else if (code == 57421) { //NumPad 6
             setEnemyMinions(getEnemyMinions() + 1);
-        } else if(code == 31) {
+        } else if (code == 31) {
             r.startGame();
-        } else if(code == 46) { //Confirm
+        } else if (code == 46) { //Confirm
             r.confirm();
             confirmed = true;
-        } else if(code == 30) { //Attack
+        } else if (code == 30) { //Attack
             attack = true;
-        } else if(code == 18) {
+        } else if (code == 18) {
             r.endTurn();
-        } else if(code == 2) {
-            if(attack) { //Attack
-                r.attack(posToAttack, timesPos);
-            } else if(!cardToPlay && confirmed) {
-                r.playCard(overlay.xHands, overlay.addHands, code - 1);
-                cardToPlay = true;
-            } else if(!confirmed) { //Select Card to put away
-                timesSel = 0;
-                r.select(selection, timesSel);
+        } else if (code == 25) {
+            if(playCard) {
+                playCard = false;
             } else {
-                r.posToPlay(overlay.x, code - 1);
-                cardToPlay = false;
+                playCard = true;
             }
-        } else if(code == 3) {
-            if(attack) { //Attack
-                timesPos = 1;
-                r.attack(posToAttack, timesPos);
-            } else if(!cardToPlay && confirmed) {
-                r.playCard(overlay.xHands, overlay.addHands, code - 1);
-                cardToPlay = true;
-            } else if(!confirmed) { //Select Card to put away
-                timesSel = 1;
-                r.select(selection, timesSel);
-            } else {
-                r.posToPlay(overlay.x, code - 1);
-                cardToPlay = false;
-            }
-        } else if(code == 4) {
-            if (!confirmed && !selected) { //Select Handsize at start
+        } else if (code == 4) {
+            if (!confirmed && !selected) { //Select Handsize at startc
                 setHandcards(4);
                 selected = true;
-            } else if (attack) { //Attack
-                timesPos = 2;
-                r.attack(posToAttack, timesPos);
-                attack = false;
-            } else if(!cardToPlay && confirmed) {
-                r.playCard(overlay.xHands, overlay.addHands, code - 1);
-                cardToPlay = true;
-            } else if(!confirmed) { //Select Card to put away
-                timesSel = 2;
-                r.select(selection, timesSel);
-            } else {
-                r.posToPlay(overlay.x, code - 1);
-                cardToPlay = false;
             }
-        } else if(code == 5) {
-            if(!confirmed && !selected) { //Select Handsize at start
+        } else if (code == 5) {
+            if (!confirmed && !selected) { //Select Handsize at start
                 setHandcards(6);
                 selected = true;
-            } else if(attack) { //Attack
-                timesPos = 3;
-                r.attack(posToAttack, timesPos);
-                attack = false;
-            } else if(!cardToPlay && confirmed) {
-                r.playCard(overlay.xHands, overlay.addHands, code - 1);
-                cardToPlay = true;
-            } else if(!confirmed && getHandcards() == 61) { //Select Card to put away
+            } else if (!confirmed && getHandcards() == 6) { //Select Card to put away
                 timesSel = 3;
                 r.select(selection, timesSel);
-            } else {
-                r.posToPlay(overlay.x, code - 1);
-                cardToPlay = false;
-            }
-        } else if(code == 6) {
-            if(attack) {
-                timesPos = 4;
-                r.attack(posToAttack, timesPos);
-                attack = false;
-            } else if(!cardToPlay && confirmed) {
-                r.playCard(overlay.xHands, overlay.addHands, code - 1);
-                cardToPlay = true;
-            } else {
-                r.posToPlay(overlay.x, code - 1);
-                cardToPlay = false;
-            }
-        } else if(code == 7) {
-            if(attack) {
-                timesPos = 5;
-                r.attack(posToAttack, timesPos);
-                attack = false;
-            } else if(!cardToPlay && confirmed){
-                r.playCard(overlay.xHands, overlay.addHands, code - 1);
-                cardToPlay = true;
-            } else {
-                r.posToPlay(overlay.x, code - 1);
-                cardToPlay = false;
-            }
-        } else if(code == 8) {
-            if(attack) {
-                timesPos = 6;
-                r.attack(posToAttack, timesPos);
-                attack = false;
-            } else if(!cardToPlay && confirmed) {
-                r.playCard(overlay.xHands, overlay.addHands, code - 1);
-                cardToPlay = true;
-            } else {
-                r.posToPlay(overlay.x, code - 1);
-                cardToPlay = false;
-            }
-        } else if(code == 9) {
-            if(!cardToPlay && confirmed) {
-                r.playCard(overlay.xHands, overlay.addHands, code - 1);
-                cardToPlay = true;
-            }
-        } else if(code == 10) {
-            if(!cardToPlay && confirmed) {
-                r.playCard(overlay.xHands, overlay.addHands, code - 1);
-                cardToPlay = true;
-            }
-        } else if(code == 11) {
-            if(!cardToPlay && confirmed) {
-                r.playCard(overlay.xHands, overlay.addHands, code - 1);
-                cardToPlay = true;
             }
         }
     }
