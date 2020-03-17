@@ -103,6 +103,8 @@ public class Overlay extends JFrame {
                 g.drawString("" + i, xHands, yHands);
                 xHands = xHands + addHands;
             }
+
+            //Reset xHands
             xHands = xHands - (i * addHands);
 
             //Minion Numeration
@@ -121,6 +123,7 @@ public class Overlay extends JFrame {
                     x = x + 140;
                 }
             }
+
             if(logic.getEnemyMinions()%2 != 0) {
                 x = 540;
                 y = 400;
@@ -136,6 +139,10 @@ public class Overlay extends JFrame {
                     x = x + 140;
                 }
             }
+
+            //Reset x
+            x = x - (i * 140);
+
             g.drawString("Handcards:"+ logic.getHandString(), 1300, 1070);
             g.drawString("Friendly Minions: " + logic.getFriendlyMinionsString(), 440, 540);
             g.drawString("Enemy Minions: " + logic.getEnemyMinionsString(), 440, 480);

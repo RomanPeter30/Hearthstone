@@ -88,6 +88,7 @@ public class Logic {
     public boolean confirmed = false;
     public boolean attack = false;
     public boolean selected = false;
+    public boolean cardToPlay = false;
     public int selection;
     public int posToAttack;
     public int timesSel;
@@ -101,6 +102,9 @@ public class Logic {
     }
 
     public void doAction(int code) throws AWTException {
+        System.out.println(selected);
+        System.out.println(confirmed);
+        System.out.println(cardToPlay);
         timesSel = 0;
         timesPos = 0;
 
@@ -147,23 +151,29 @@ public class Logic {
         } else if(code == 2) {
             if(attack) { //Attack
                 r.attack(posToAttack, timesPos);
-            } else {
+            } else if(!cardToPlay && confirmed) {
                 r.playCard(overlay.xHands, overlay.addHands, code - 1);
-            }
-            if(!confirmed) { //Select Card to put away
+                cardToPlay = true;
+            } else if(!confirmed) { //Select Card to put away
                 timesSel = 0;
                 r.select(selection, timesSel);
+            } else {
+                r.posToPlay(overlay.x, code - 1);
+                cardToPlay = false;
             }
         } else if(code == 3) {
             if(attack) { //Attack
                 timesPos = 1;
                 r.attack(posToAttack, timesPos);
-            } else {
+            } else if(!cardToPlay && confirmed) {
                 r.playCard(overlay.xHands, overlay.addHands, code - 1);
-            }
-            if(!confirmed) { //Select Card to put away
+                cardToPlay = true;
+            } else if(!confirmed) { //Select Card to put away
                 timesSel = 1;
                 r.select(selection, timesSel);
+            } else {
+                r.posToPlay(overlay.x, code - 1);
+                cardToPlay = false;
             }
         } else if(code == 4) {
             if (!confirmed && !selected) { //Select Handsize at start
@@ -172,12 +182,16 @@ public class Logic {
             } else if (attack) { //Attack
                 timesPos = 2;
                 r.attack(posToAttack, timesPos);
-            } else {
+                attack = false;
+            } else if(!cardToPlay && confirmed) {
                 r.playCard(overlay.xHands, overlay.addHands, code - 1);
-            }
-            if(!confirmed) { //Select Card to put away
+                cardToPlay = true;
+            } else if(!confirmed) { //Select Card to put away
                 timesSel = 2;
                 r.select(selection, timesSel);
+            } else {
+                r.posToPlay(overlay.x, code - 1);
+                cardToPlay = false;
             }
         } else if(code == 5) {
             if(!confirmed && !selected) { //Select Handsize at start
@@ -186,40 +200,68 @@ public class Logic {
             } else if(attack) { //Attack
                 timesPos = 3;
                 r.attack(posToAttack, timesPos);
-            } else {
+                attack = false;
+            } else if(!cardToPlay && confirmed) {
                 r.playCard(overlay.xHands, overlay.addHands, code - 1);
-            }
-            if(!confirmed && getHandcards() == 61) { //Select Card to put away
+                cardToPlay = true;
+            } else if(!confirmed && getHandcards() == 61) { //Select Card to put away
                 timesSel = 3;
                 r.select(selection, timesSel);
+            } else {
+                r.posToPlay(overlay.x, code - 1);
+                cardToPlay = false;
             }
         } else if(code == 6) {
             if(attack) {
                 timesPos = 4;
                 r.attack(posToAttack, timesPos);
-            } else {
+                attack = false;
+            } else if(!cardToPlay && confirmed) {
                 r.playCard(overlay.xHands, overlay.addHands, code - 1);
+                cardToPlay = true;
+            } else {
+                r.posToPlay(overlay.x, code - 1);
+                cardToPlay = false;
             }
         } else if(code == 7) {
             if(attack) {
                 timesPos = 5;
                 r.attack(posToAttack, timesPos);
-            } else {
+                attack = false;
+            } else if(!cardToPlay && confirmed){
                 r.playCard(overlay.xHands, overlay.addHands, code - 1);
+                cardToPlay = true;
+            } else {
+                r.posToPlay(overlay.x, code - 1);
+                cardToPlay = false;
             }
         } else if(code == 8) {
             if(attack) {
                 timesPos = 6;
                 r.attack(posToAttack, timesPos);
-            } else {
+                attack = false;
+            } else if(!cardToPlay && confirmed) {
                 r.playCard(overlay.xHands, overlay.addHands, code - 1);
+                cardToPlay = true;
+            } else {
+                r.posToPlay(overlay.x, code - 1);
+                cardToPlay = false;
             }
         } else if(code == 9) {
-            r.playCard(overlay.xHands, overlay.addHands, code - 1);
+            if(!cardToPlay && confirmed) {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
+                cardToPlay = true;
+            }
         } else if(code == 10) {
-            r.playCard(overlay.xHands, overlay.addHands, code - 1);
+            if(!cardToPlay && confirmed) {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
+                cardToPlay = true;
+            }
         } else if(code == 11) {
-            r.playCard(overlay.xHands, overlay.addHands, code - 1);
+            if(!cardToPlay && confirmed) {
+                r.playCard(overlay.xHands, overlay.addHands, code - 1);
+                cardToPlay = true;
+            }
         }
     }
 }
