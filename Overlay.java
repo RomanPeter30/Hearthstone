@@ -34,7 +34,9 @@ public class Overlay extends JFrame {
         g.setColor(Color.WHITE);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 
-        if(!logic.selected) {
+        if(!logic.started) {
+            g.drawString("S", 1400, 900);
+        } else if(!logic.selected) {
             g.drawString("Choose number of Cards 3 or 4", 400,300);
         } else if(!logic.confirmed) {
             int xChoose = 400;
@@ -153,6 +155,19 @@ public class Overlay extends JFrame {
                 g.drawString("P", 400, 600);
             } else {
                 g.drawString("T" , 400, 400);
+            }
+
+            if(logic.spell) {
+                g.drawString("S", 1300, 500);
+            }
+
+            if(logic.heroPower) {
+                g.drawString("Press S to choose target", 1300, 500);
+                g.drawString("Press Backspace if no target", 1300, 540);
+            }
+
+            if(logic.friendly) {
+                g.drawString("Friendly", 1300, 700);
             }
         }
     }

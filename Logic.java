@@ -85,12 +85,16 @@ public class Logic {
         this.friendlyMinions.set(friendlyMinions);
     }
 
+    public boolean started = false;
     public boolean confirmed = false;
     public boolean attack = false;
     public boolean selected = false;
     public boolean cardToPlay = false;
     public boolean cardToAttack = false;
     public boolean playCard = true;
+    public boolean spell = false;
+    public boolean friendly = false;
+    public boolean heroPower = false;
     public int selection;
     public int posToAttack;
     public int timesSel;
@@ -138,10 +142,19 @@ public class Logic {
             } else if (!playCard) {
                 r.chooseAttackCard(overlay.x, code - 1);
                 cardToAttack = true;
+            } else if(spell) {
+                if(friendly) {
+                    r.posToPlay(overlay.x, code - 1);
+                } else {
+                    r.attack(posToAttack, code - 2);
+                }
+                spell = false;
+                friendly = false;
             } else {
                 r.posToPlay(overlay.x, code - 1);
                 cardToPlay = false;
             }
+
         }
 
         //Logic
@@ -157,21 +170,42 @@ public class Logic {
             setEnemyMinions(getEnemyMinions() - 1);
         } else if (code == 57421) { //NumPad 6
             setEnemyMinions(getEnemyMinions() + 1);
-        } else if (code == 31) {
+        } else if (code == 28) {
             r.startGame();
+            started = true;
+        } else if (code == 35) {
+            r.useHeroPower();
+            heroPower = true;
+            cardToPlay = true;
+        } else if (code == 14) {
+            if(heroPower) {
+                cardToPlay = false;
+                heroPower = false;
+            }
         } else if (code == 46) { //Confirm
             r.confirm();
             confirmed = true;
+        } else if (code == 31) {
+            spell = !spell;
+            if(heroPower) {
+                heroPower = false;
+            }
         } else if (code == 30) { //Attack
             attack = true;
+        } else if (code == 33) {
+            r.attackFace();
+            cardToAttack = false;
         } else if (code == 18) {
             r.endTurn();
+        } else if (code == 24) {
+          if(spell) {
+              friendly = !friendly;
+          }
+        } else if (code == 57) {
+            r.selectFace();
+            cardToAttack = true;
         } else if (code == 25) {
-            if(playCard) {
-                playCard = false;
-            } else {
-                playCard = true;
-            }
+            playCard = !playCard;
         } else if (code == 4) {
             if (!confirmed && !selected) { //Select Handsize at startc
                 setHandcards(4);

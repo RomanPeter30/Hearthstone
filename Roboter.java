@@ -58,4 +58,22 @@ public class Roboter {
         r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
+
+    public void attackFace() {
+        r.mouseMove(960, 220);
+        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
+
+    public void selectFace() {
+        r.mouseMove(960, 830);
+        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
+
+    public void useHeroPower() {
+        r.mouseMove(1140, 830);
+        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
 }
